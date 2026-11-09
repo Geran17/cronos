@@ -77,6 +77,45 @@ def inicializar_configuracion(sistema: str = SYSTEM_NAME) -> Path:
     return CONFIG_CRONO
 
 
+def insercion_datos_iniciales() -> None:
+    path_insercion_carreras = Path(__file__).parent.parent.parent.joinpath(
+        "data", "insercion_carreras_2025.sql"
+    )
+
+    path_insercion_asignaturas = Path(__file__).parent.parent.parent.joinpath(
+        "data", "insercion_asiganturas_horassemanales.sql"
+    )
+
+    path_insercion_prerequisitos = Path(__file__).parent.parent.parent.joinpath(
+        "data", "insercion_prerequisitos.sql"
+    )
+
+    path_insercion_malla_curricular = Path(__file__).parent.parent.parent.joinpath(
+        "data", "insercion_malla_curricular.sql"
+    )
+
+    sql_insercion_carreras = path_insercion_carreras.read_text(encoding="utf-8")
+    sql_insercion_asignaturas = path_insercion_asignaturas.read_text(encoding="utf-8")
+    sql_insercion_prerequisitos = path_insercion_prerequisitos.read_text(encoding="utf-8")
+    sql_insercion_malla_curricular = path_insercion_malla_curricular.read_text(encoding="utf-8")
+
+    if (
+        sql_insercion_carreras.strip()
+        and sql_insercion_asignaturas.strip()
+        and sql_insercion_prerequisitos.strip()
+        and sql_insercion_malla_curricular.strip()
+    ):
+        if BASE_DATOS_CRONO is None:
+            raise RuntimeError("La base de datos no ha sido inicializada")
+
+        with sqlite3.connect(BASE_DATOS_CRONO) as db:
+            db.executescript(sql_insercion_carreras)
+            db.executescript(sql_insercion_asignaturas)
+            db.executescript(sql_insercion_prerequisitos)
+            db.executescript(sql_insercion_malla_curricular)
+            LOGGER.info("Insercion de datos en: %s", BASE_DATOS_CRONO)
+
+
 CONFIG_CRONO = inicializar_configuracion()
 if CONFIG_DIR_APP is not None:
     configurar_logger(directorio=CONFIG_DIR_APP)
