@@ -47,13 +47,13 @@ def inicializar_configuracion(sistema: str = SYSTEM_NAME) -> Path:
     try:
         CONFIG_DIR_APP.mkdir(parents=True, exist_ok=True)
         LOGGER.info("Directorio de configuracion: %s", CONFIG_DIR_APP)
-        CONFIG_CRONO = CONFIG_DIR_APP.joinpath("crono.conf")
+        CONFIG_CRONO = CONFIG_DIR_APP.joinpath("crono.ini")
         if not CONFIG_CRONO.exists():
             CONFIG_CRONO.write_text(
                 f"# se creo: {datetime.now()}",
                 encoding="utf-8",
             )
-        # Cambiamos a el nombre de la base de datos "cronos.db" a "test_cronos.db"
+        # Cambiamos el nombre de la base de datos "cronos.db" a "test_cronos.db"
         BASE_DATOS_CRONO = CONFIG_DIR_APP.joinpath("test_cronos.db")
         if not BASE_DATOS_CRONO.exists():
             script_sql = path_script()
