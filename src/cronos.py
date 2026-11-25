@@ -6,7 +6,8 @@ from interfaz.pyside6.mainWindow import MainWindow
 
 def main():
     # insertamos los datos iniciales a la base de datos
-    insercion_datos_iniciales()
+    # insercion_datos_iniciales()
+
     # arrancamos la aplicacion principal
     app = QApplication(sys.argv)
     window = MainWindow()
