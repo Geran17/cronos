@@ -30,6 +30,12 @@ from interfaz.pyside6.prerequisitos import Prerequisitos
 from interfaz.pyside6.malla_curricular import MallaCurricular
 from interfaz.pyside6.profesores import Profesores
 from interfaz.pyside6.estudiante import DialogoEstudiante
+from interfaz.pyside6.matriculacion import Matriculacion
+from interfaz.pyside6.inscripciones import Inscripciones
+from interfaz.pyside6.tipos_actividades import TiposActividades
+from interfaz.pyside6.actividades import Actividades
+from interfaz.pyside6.calendario_academico import CalendarioAcademico
+from interfaz.pyside6.calendario_institucional import CalendarioInstitucional
 from interfaz.pyside6.auxiliares import obtener_conexion
 
 # ==================================================================================================
@@ -90,6 +96,12 @@ class MainWindow(QMainWindow):
             "Horas Semanales": self.dock_menu.item_horasemanales,
             "Prerrequisitos": self.dock_menu.item_prerequisitos,
             "Malla Curricular": self.dock_menu.item_malla_curricular,
+            "Matriculación": self.dock_menu.item_matriculacion,
+            "Inscripciones": self.dock_menu.item_inscripciones,
+            "Tipos de actividades": self.dock_menu.item_tipos_actividades,
+            "Actividades": self.dock_menu.item_actividades_estudiante,
+            "Calendario Académico": self.dock_menu.item_calendario_academico,
+            "Calendario Institucional": self.dock_menu.item_calendario_institucional,
         }
         item = items.get(titulo)
         if item is None:
@@ -212,6 +224,33 @@ class DockMenu(QDockWidget):
         )
         self.item_academicos.addChild(self.item_malla_curricular)
 
+        # Calendarios
+        # --------------------------------------------------
+
+        self.item_calendarios = QTreeWidgetItem()
+        self.item_calendarios.setText(0, " 🗓️ Calendarios")
+        self.item_calendarios.setToolTip(0, "Consulta los calendarios académicos e institucionales")
+        self.tree_menu.addTopLevelItem(self.item_calendarios)
+
+        self.item_calendario_academico = QTreeWidgetItem()
+        self.item_calendario_academico.setText(0, " 📚 Calendario Académico")
+        self.item_calendario_academico.setData(
+            0,
+            Qt.ItemDataRole.UserRole,
+            {"name": "calendario_academico"},
+        )
+        self.item_calendarios.addChild(self.item_calendario_academico)
+
+        self.item_calendario_institucional = QTreeWidgetItem()
+        self.item_calendario_institucional.setText(0, " 🏛️ Calendario Institucional")
+        self.item_calendario_institucional.setData(
+            0,
+            Qt.ItemDataRole.UserRole,
+            {"name": "calendario_institucional"},
+        )
+        self.item_calendarios.addChild(self.item_calendario_institucional)
+        self.item_calendarios.setExpanded(True)
+
         # Estudiante
         # --------------------------------------------------
 
@@ -248,7 +287,7 @@ class DockMenu(QDockWidget):
         self.item_estudiante.addChild(self.item_tipos_actividades)
 
         self.item_actividades_estudiante = QTreeWidgetItem()
-        self.item_actividades_estudiante.setText(0, " 📅 Actividades a estudiante")
+        self.item_actividades_estudiante.setText(0, " 📅 Actividades")
         self.item_actividades_estudiante.setToolTip(
             0,
             "Administra las actividades asociadas al estudiante",
@@ -325,6 +364,36 @@ class DockMenu(QDockWidget):
             if not self._existe_tab(widget=self.tab_principal, titulo="Malla Curricular"):
                 tab_malla = MallaCurricular()
                 self._agregar_tab(tab_malla, "Malla Curricular")
+        elif datos['name'] == "matriculacion":
+            if not self._existe_tab(widget=self.tab_principal, titulo="Matriculación"):
+                tab_matriculacion = Matriculacion()
+                self._agregar_tab(tab_matriculacion, "Matriculación")
+        elif datos['name'] == "inscripciones":
+            if not self._existe_tab(widget=self.tab_principal, titulo="Inscripciones"):
+                tab_inscripciones = Inscripciones()
+                self._agregar_tab(tab_inscripciones, "Inscripciones")
+        elif datos['name'] == "tipos_actividades":
+            if not self._existe_tab(widget=self.tab_principal, titulo="Tipos de actividades"):
+                tab_tipos_actividades = TiposActividades()
+                self._agregar_tab(tab_tipos_actividades, "Tipos de actividades")
+        elif datos['name'] == "actividades_estudiante":
+            if not self._existe_tab(widget=self.tab_principal, titulo="Actividades"):
+                tab_actividades = Actividades()
+                self._agregar_tab(tab_actividades, "Actividades")
+        elif datos['name'] == "calendario_academico":
+            if not self._existe_tab(
+                widget=self.tab_principal,
+                titulo="Calendario Académico",
+            ):
+                tab_calendario = CalendarioAcademico()
+                self._agregar_tab(tab_calendario, "Calendario Académico")
+        elif datos['name'] == "calendario_institucional":
+            if not self._existe_tab(
+                widget=self.tab_principal,
+                titulo="Calendario Institucional",
+            ):
+                tab_calendario = CalendarioInstitucional()
+                self._agregar_tab(tab_calendario, "Calendario Institucional")
         elif datos['name'] == "quien_eres":
             conexion = obtener_conexion()
             if conexion is None:

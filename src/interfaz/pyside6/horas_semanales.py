@@ -97,7 +97,7 @@ class HorasSemanales(QWidget):
             return
 
         self.modelo.setTable("HorasSemanales")
-        self.modelo.setRelation(1, QSqlRelation("Asignatura", "id_asignatura", "codigo"))
+        self.modelo.setRelation(1, QSqlRelation("Asignatura", "id_asignatura", "nombre"))
         self.modelo.setEditStrategy(QSqlRelationalTableModel.EditStrategy.OnManualSubmit)
         if not self.modelo.select():
             LOGGER.error("Error al cargar las horas semanales: %s", self.modelo.lastError().text())

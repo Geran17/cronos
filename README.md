@@ -2,8 +2,9 @@
 
 Cronos es una aplicación de escritorio para organizar información académica
 universitaria. Permite administrar facultades, carreras, profesores,
-asignaturas, prerrequisitos y mallas curriculares, además de gestionar
-información del estudiante, matrículas e inscripciones.
+asignaturas, tipos de actividades, prerrequisitos y mallas curriculares,
+además de gestionar información del estudiante, matrículas e inscripciones.
+El color elegido para cada tipo de actividad se guarda en `crono.ini`.
 
 La interfaz está desarrollada con PySide6 y los datos se almacenan en SQLite.
 
